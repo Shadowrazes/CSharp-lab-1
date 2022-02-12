@@ -2,37 +2,11 @@
 
 public class HW1
 {
-    private static int MinCustomerTime(int[] buff)
-    {
-        int min = buff[0];
-        for (int i = 1; i < buff.Length; i++)
-        {
-            if (buff[i] < min && buff[i] != 0)
-            {
-                min = buff[i];
-            }
-        }
-        return min;
-    }
-
-    private static int MaxCustomerTime(int[] buff)
-    {
-        int max = buff[0];
-        for (int i = 1; i < buff.Length; i++)
-        {
-            if (buff[i] > max)
-            {
-                max = buff[i];
-            }
-        }
-        return max;
-    }
-
     public static long QueueTime(int[] customers, int n)
     {
         if(customers.Length <= n)
-            return MaxCustomerTime(customers);
-
+            return customers.Max();
+     
         long time = 0;
         int[] buff = new int[n];
         int i = 0;
@@ -43,7 +17,7 @@ public class HW1
 
         while (i < customers.Length)
         {
-            int minBuffTime = MinCustomerTime(buff);
+            int minBuffTime = buff.Min();
             for (int j = 0; j < buff.Length; j++)
             {
                 buff[j] -= minBuffTime;
@@ -57,12 +31,11 @@ public class HW1
                     if(i != customers.Length)
                         buff[j] = customers[i++];
                     else
-                        return time + MaxCustomerTime(buff);
+                        return time + buff.Max();
                 }
             }
         }
-        time += MaxCustomerTime(buff);
-        return time;
+        return time + buff.Max();
     }
 }
 
